@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { wrap } from 'comlink';
 import { useTranslation } from 'react-i18next';
 import { ToolPageShell } from '../../components/ToolPageShell';
@@ -63,6 +64,11 @@ export default function CompressPage() {
   };
 
   return (
+  <>
+    <Helmet>
+      <title>Compress PDF Free — Reduce File Size Online | PDF Studio</title>
+      <meta name="description" content="Compress PDF files without uploading. Choose quality level and see file size reduction. Free, unlimited, and 100% private." />
+    </Helmet>
     <ToolPageShell icon="🗜️" title={t('tools.compress.title')} description={t('compress.description')}>
       <FileUploader onFiles={handleFile} multiple={false} />
 
@@ -117,5 +123,6 @@ export default function CompressPage() {
         </div>
       )}
     </ToolPageShell>
+  </>
   );
 }

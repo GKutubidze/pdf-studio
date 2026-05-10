@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -104,6 +105,11 @@ export default function Home() {
   }, [activeCategory, query, t]);
 
   return (
+    <>
+    <Helmet>
+      <title>PDF Studio — Free Unlimited PDF Tools | No Upload Required</title>
+      <meta name="description" content="16 free PDF tools that run entirely in your browser. Merge, split, compress, protect, sign, OCR and more. No file uploads. No limits. No sign-up." />
+    </Helmet>
     <div>
       {/* Hero */}
       <section className="relative overflow-hidden px-4 py-20 text-center">
@@ -237,5 +243,6 @@ export default function Home() {
         </div>
       </section>
     </div>
+    </>
   );
 }

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import { useTranslation } from 'react-i18next';
 import { ToolPageShell } from '../../components/ToolPageShell';
@@ -91,6 +92,11 @@ export default function PageNumbersPage() {
   };
 
   return (
+  <>
+    <Helmet>
+      <title>Add Page Numbers to PDF Free — Online | PDF Studio</title>
+      <meta name="description" content="Add page numbers to PDF documents. Choose position, font size, and starting number. Free, no upload, instant download." />
+    </Helmet>
     <ToolPageShell
       icon="🔢"
       title={t('tools.pageNumbers.title')}
@@ -176,5 +182,6 @@ export default function PageNumbersPage() {
         </div>
       )}
     </ToolPageShell>
+  </>
   );
 }

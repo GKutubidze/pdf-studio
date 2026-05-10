@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { wrap } from 'comlink';
 import { useTranslation } from 'react-i18next';
 import { ToolPageShell } from '../../components/ToolPageShell';
@@ -77,6 +78,11 @@ export default function RotatePage() {
   };
 
   return (
+  <>
+    <Helmet>
+      <title>Rotate PDF Free — Rotate Pages Online | PDF Studio</title>
+      <meta name="description" content="Rotate individual pages or all pages at once. Choose 90°, 180°, or 270°. Free, unlimited, no file upload." />
+    </Helmet>
     <ToolPageShell icon="🔄" title={t('tools.rotate.title')} description={t('rotate.description')}>
       <FileUploader onFiles={handleFile} multiple={false} />
 
@@ -135,5 +141,6 @@ export default function RotatePage() {
         </div>
       )}
     </ToolPageShell>
+  </>
   );
 }

@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { wrap } from 'comlink';
 import { nanoid } from 'nanoid';
 import { useTranslation } from 'react-i18next';
@@ -94,6 +95,11 @@ export default function MergePage() {
   };
 
   return (
+  <>
+    <Helmet>
+      <title>Merge PDF Free — Combine PDF Files Online | PDF Studio</title>
+      <meta name="description" content="Merge multiple PDF files into one document. Drag to reorder pages. Runs in your browser — no uploads, no limits, 100% free and private." />
+    </Helmet>
     <ToolPageShell
       icon="🔀"
       title={t('tools.merge.title')}
@@ -147,5 +153,6 @@ export default function MergePage() {
         </div>
       )}
     </ToolPageShell>
+  </>
   );
 }

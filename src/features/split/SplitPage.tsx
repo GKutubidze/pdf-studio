@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { wrap } from 'comlink';
 import { useTranslation } from 'react-i18next';
 import { ToolPageShell } from '../../components/ToolPageShell';
@@ -97,6 +98,11 @@ export default function SplitPage() {
   };
 
   return (
+  <>
+    <Helmet>
+      <title>Split PDF Free — Extract Pages Online | PDF Studio</title>
+      <meta name="description" content="Split PDF by page ranges, every N pages, or visual selection. Free, unlimited, no file upload needed." />
+    </Helmet>
     <ToolPageShell icon="✂️" title={t('tools.split.title')} description={t('split.description')}>
       <FileUploader onFiles={handleFile} multiple={false} />
 
@@ -211,5 +217,6 @@ export default function SplitPage() {
         </div>
       )}
     </ToolPageShell>
+  </>
   );
 }

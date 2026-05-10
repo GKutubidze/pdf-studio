@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { PDFDocument } from 'pdf-lib';
 import { useTranslation } from 'react-i18next';
 import { ToolPageShell } from '../../components/ToolPageShell';
@@ -97,6 +98,11 @@ export default function RepairPage() {
   };
 
   return (
+  <>
+    <Helmet>
+      <title>Repair PDF Free — Fix Corrupted PDF Online | PDF Studio</title>
+      <meta name="description" content="Recover pages from corrupted or damaged PDF files. Relaxed parsing rescues what it can and reports page-level results. Free, no upload." />
+    </Helmet>
     <ToolPageShell
       icon="🔧"
       title={t('tools.repair.title')}
@@ -169,5 +175,6 @@ export default function RepairPage() {
         </div>
       )}
     </ToolPageShell>
+  </>
   );
 }

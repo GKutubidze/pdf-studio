@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { wrap } from 'comlink';
 import { useTranslation } from 'react-i18next';
 import { ToolPageShell } from '../../components/ToolPageShell';
@@ -45,6 +46,11 @@ export default function UnlockPage() {
   };
 
   return (
+  <>
+    <Helmet>
+      <title>Unlock PDF Free — Remove Password Online | PDF Studio</title>
+      <meta name="description" content="Remove password protection from a PDF file instantly. Free, no upload, runs entirely in your browser." />
+    </Helmet>
     <ToolPageShell icon="🔓" title={t('tools.unlock.title')} description={t('unlock.description')}>
       <FileUploader onFiles={handleFile} multiple={false} />
 
@@ -78,5 +84,6 @@ export default function UnlockPage() {
         </div>
       )}
     </ToolPageShell>
+  </>
   );
 }

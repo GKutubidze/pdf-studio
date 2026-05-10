@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { wrap } from 'comlink';
 import { useTranslation } from 'react-i18next';
 import { ToolPageShell } from '../../components/ToolPageShell';
@@ -62,6 +63,11 @@ export default function WatermarkPage() {
   const positions: WatermarkPosition[] = ['center', 'top-left', 'top-center', 'top-right', 'bottom-left', 'bottom-center', 'bottom-right'];
 
   return (
+  <>
+    <Helmet>
+      <title>Watermark PDF Free — Add Text Watermark Online | PDF Studio</title>
+      <meta name="description" content="Add a custom text watermark to every page of your PDF. Control font, size, opacity, rotation, and position. Free, no upload." />
+    </Helmet>
     <ToolPageShell icon="💧" title={t('tools.watermark.title')} description={t('watermark.description')}>
       <FileUploader onFiles={handleFile} multiple={false} />
 
@@ -123,5 +129,6 @@ export default function WatermarkPage() {
         </div>
       )}
     </ToolPageShell>
+  </>
   );
 }

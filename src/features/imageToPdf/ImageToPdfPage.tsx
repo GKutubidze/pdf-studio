@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { wrap } from 'comlink';
 import { nanoid } from 'nanoid';
 import { useTranslation } from 'react-i18next';
@@ -94,6 +95,11 @@ export default function ImageToPdfPage() {
   };
 
   return (
+  <>
+    <Helmet>
+      <title>Image to PDF Free — Convert JPG/PNG to PDF Online | PDF Studio</title>
+      <meta name="description" content="Convert JPG, PNG, WebP, and other images to PDF. Drag to reorder. Runs in your browser — no uploads, no limits." />
+    </Helmet>
     <ToolPageShell icon="🖼️" title={t('tools.imageToPdf.title')} description={t('imageToPdf.description')}>
       <FileUploader
         onFiles={addImages}
@@ -146,5 +152,6 @@ export default function ImageToPdfPage() {
         </div>
       )}
     </ToolPageShell>
+  </>
   );
 }

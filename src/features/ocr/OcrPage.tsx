@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { ToolPageShell } from '../../components/ToolPageShell';
 import { FileUploader } from '../../components/FileUploader';
@@ -105,6 +106,11 @@ export default function OcrPage() {
   };
 
   return (
+  <>
+    <Helmet>
+      <title>OCR PDF Free — Extract Text from PDF Online | PDF Studio</title>
+      <meta name="description" content="Extract text from scanned PDFs using optical character recognition. Powered by Tesseract.js. Free, no upload, runs offline." />
+    </Helmet>
     <ToolPageShell
       icon="🔍"
       title={t('tools.ocr.title')}
@@ -173,5 +179,6 @@ export default function OcrPage() {
         </div>
       )}
     </ToolPageShell>
+  </>
   );
 }

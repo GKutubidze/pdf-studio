@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { ToolPageShell } from '../../components/ToolPageShell';
 import { FileUploader } from '../../components/FileUploader';
@@ -85,6 +86,11 @@ export default function PdfToImagePage() {
   };
 
   return (
+  <>
+    <Helmet>
+      <title>PDF to Image Free — Convert PDF Pages to PNG Online | PDF Studio</title>
+      <meta name="description" content="Convert PDF pages to PNG images in your browser. Choose quality and resolution. Free, unlimited, no file upload needed." />
+    </Helmet>
     <ToolPageShell icon="📸" title={t('tools.pdfToImage.title')} description={t('pdfToImage.description')}>
       <FileUploader onFiles={handleFile} multiple={false} />
 
@@ -132,5 +138,6 @@ export default function PdfToImagePage() {
         </div>
       )}
     </ToolPageShell>
+  </>
   );
 }

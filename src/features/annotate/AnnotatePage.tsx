@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import { useTranslation } from 'react-i18next';
 import { ToolPageShell } from '../../components/ToolPageShell';
@@ -139,6 +140,11 @@ export default function AnnotatePage() {
   ];
 
   return (
+  <>
+    <Helmet>
+      <title>Annotate PDF Free — Draw & Highlight Online | PDF Studio</title>
+      <meta name="description" content="Draw, highlight, and annotate PDF files in your browser. Add freehand drawings and shapes. Free, no upload, instant." />
+    </Helmet>
     <ToolPageShell icon="✏️" title={t('tools.annotate.title')} description={t('annotate.description')}>
       <FileUploader onFiles={handleFile} multiple={false} />
 
@@ -199,5 +205,6 @@ export default function AnnotatePage() {
         </div>
       )}
     </ToolPageShell>
+  </>
   );
 }

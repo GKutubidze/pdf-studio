@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { PDFDocument } from 'pdf-lib';
 import { useTranslation } from 'react-i18next';
 import { ToolPageShell } from '../../components/ToolPageShell';
@@ -68,6 +69,11 @@ export default function CropPage() {
   };
 
   return (
+  <>
+    <Helmet>
+      <title>Crop PDF Free — Set Crop Box Online | PDF Studio</title>
+      <meta name="description" content="Crop PDF pages with a visual drag-and-drop editor. Set precise crop margins in points and millimetres. Free, no upload." />
+    </Helmet>
     <ToolPageShell icon="✂️" title={t('tools.crop.title')} description={t('crop.description')}>
       <FileUploader onFiles={handleFile} multiple={false} />
 
@@ -111,5 +117,6 @@ export default function CropPage() {
         </div>
       )}
     </ToolPageShell>
+  </>
   );
 }

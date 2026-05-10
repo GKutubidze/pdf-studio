@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { PDFDocument } from 'pdf-lib';
 import { useTranslation } from 'react-i18next';
 import { ToolPageShell } from '../../components/ToolPageShell';
@@ -122,6 +123,11 @@ export default function SignPage() {
   };
 
   return (
+  <>
+    <Helmet>
+      <title>Sign PDF Free — Add Signature Online | PDF Studio</title>
+      <meta name="description" content="Sign PDF documents with a drawn or typed signature. Drag to position. Free, no upload, 100% private — your signature never leaves your device." />
+    </Helmet>
     <ToolPageShell icon="✍️" title={t('tools.sign.title')} description={t('sign.description')}>
       <FileUploader onFiles={handleFile} multiple={false} />
 
@@ -217,5 +223,6 @@ export default function SignPage() {
         </div>
       )}
     </ToolPageShell>
+  </>
   );
 }

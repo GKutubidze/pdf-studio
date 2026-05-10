@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { wrap } from 'comlink';
 import { useTranslation } from 'react-i18next';
 import { ToolPageShell } from '../../components/ToolPageShell';
@@ -49,6 +50,11 @@ export default function ProtectPage() {
   };
 
   return (
+  <>
+    <Helmet>
+      <title>Protect PDF Free — Add Password Online | PDF Studio</title>
+      <meta name="description" content="Add password protection to your PDF in your browser. User and owner passwords supported. Free, no upload, instant." />
+    </Helmet>
     <ToolPageShell icon="🔒" title={t('tools.protect.title')} description={t('protect.description')}>
       <FileUploader onFiles={handleFile} multiple={false} />
 
@@ -100,5 +106,6 @@ export default function ProtectPage() {
         </div>
       )}
     </ToolPageShell>
+  </>
   );
 }

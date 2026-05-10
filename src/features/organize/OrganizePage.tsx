@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { PDFDocument } from 'pdf-lib';
 import { useTranslation } from 'react-i18next';
 import { ToolPageShell } from '../../components/ToolPageShell';
@@ -118,6 +119,11 @@ export default function OrganizePage() {
   };
 
   return (
+  <>
+    <Helmet>
+      <title>Organize PDF Free — Reorder & Delete Pages Online | PDF Studio</title>
+      <meta name="description" content="Drag-and-drop to reorder, delete, or rearrange PDF pages. Preview thumbnails included. Free, no upload, 100% private." />
+    </Helmet>
     <ToolPageShell icon="📋" title={t('tools.organize.title')} description={t('organize.description')}>
       <FileUploader onFiles={handleFile} multiple={false} />
 
@@ -177,5 +183,6 @@ export default function OrganizePage() {
         </div>
       )}
     </ToolPageShell>
+  </>
   );
 }
