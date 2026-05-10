@@ -42,7 +42,7 @@ export function Header() {
             </Link>
           )}
           <a
-            href="https://github.com/anthropics/pdf-studio"
+            href="https://github.com/GKutubidze/pdf-studio"
             target="_blank"
             rel="noopener noreferrer"
             className="rounded-lg px-3 py-1.5 text-sm transition-colors"
