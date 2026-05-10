@@ -1,0 +1,303 @@
+{
+  "nav": {
+    "allTools": "All Tools",
+    "github": "GitHub"
+  },
+  "hero": {
+    "title": "Every PDF Tool.",
+    "titleAccent": "Free Forever.",
+    "subtitle": "Merge, split, compress, sign, OCR and more — all 16 tools run entirely in your browser. Your files never leave your device.",
+    "badge": "100% Private — No Server Uploads"
+  },
+  "badges": {
+    "noLimits": "No file size limits",
+    "private": "End-to-end private",
+    "noSignup": "No sign-up required",
+    "offline": "Works offline"
+  },
+  "categories": {
+    "all": "All Tools",
+    "organize": "Organize",
+    "convert": "Convert",
+    "security": "Security",
+    "edit": "Edit"
+  },
+  "tools": {
+    "merge":       { "title": "Merge PDFs",         "description": "Combine multiple PDFs into one. Drag to reorder before merging." },
+    "split":       { "title": "Split PDF",           "description": "Split by page ranges, every N pages, or extract individual pages." },
+    "organize":    { "title": "Organize Pages",      "description": "Reorder, delete, or add blank pages. Extract selections." },
+    "rotate":      { "title": "Rotate PDF",          "description": "Rotate individual or all pages 90°, 180°, or 270°." },
+    "crop":        { "title": "Crop PDF",            "description": "Set crop margins to trim visible area on any page range." },
+    "compress":    { "title": "Compress PDF",        "description": "Reduce file size with High / Medium / Low quality modes." },
+    "imageToPdf":  { "title": "Image → PDF",        "description": "Convert JPG, PNG, WebP images into a single PDF document." },
+    "pdfToImage":  { "title": "PDF → Image",        "description": "Export each page as PNG or JPG at 72, 150, or 300 DPI." },
+    "ocr":         { "title": "OCR — Extract Text", "description": "AI-powered text recognition from scanned pages. 10+ languages." },
+    "protect":     { "title": "Protect PDF",         "description": "Add open & owner passwords with AES encryption." },
+    "unlock":      { "title": "Unlock PDF",          "description": "Remove password protection. Enter current password to unlock." },
+    "repair":      { "title": "Repair PDF",          "description": "Recover pages from corrupted or damaged PDF files." },
+    "watermark":   { "title": "Watermark PDF",       "description": "Stamp text watermarks with custom font, opacity, and angle." },
+    "annotate":    { "title": "Annotate PDF",        "description": "Add text boxes, shapes, highlights. Undo/redo stack." },
+    "sign":        { "title": "Sign PDF",            "description": "Draw, type, or upload your signature and place it on any page." },
+    "pageNumbers": { "title": "Add Page Numbers",   "description": "Stamp page numbers with full control over position and style." }
+  },
+  "uploader": {
+    "drop": "Drop PDF files here",
+    "sublabel": "or click to browse — up to 500 MB each",
+    "dropImages": "Drop images here",
+    "dropDamaged": "Drop the damaged PDF here",
+    "dropDamagedSub": "Any PDF — even badly corrupted ones",
+    "dragActive": "Release to upload…",
+    "rejected": "File rejected"
+  },
+  "buttons": {
+    "process":        "Process",
+    "download":       "Download",
+    "cancel":         "Cancel",
+    "addFiles":       "Add Files",
+    "apply":          "Apply",
+    "clear":          "Clear",
+    "undo":           "← Undo",
+    "useSignature":   "Use Signature",
+    "openTool":       "Open tool",
+    "clearFilters":   "Clear filters",
+    "downloadTxt":    "Download .txt",
+    "prev":           "← Prev",
+    "next":           "Next →"
+  },
+  "errors": {
+    "corrupted":      "This PDF appears to be corrupted or damaged. Try using the Repair tool.",
+    "memory":         "Not enough memory to process this file. Try closing other tabs or splitting the file.",
+    "encrypted":      "This PDF is password-protected. Use the Unlock tool first.",
+    "wrongPassword":  "Wrong password or file is not encrypted.",
+    "invalidRange":   "The specified page range is invalid.",
+    "unknown":        "An unexpected error occurred. Please try again.",
+    "addAtLeast2":    "Add at least 2 PDF files to merge.",
+    "enterPassword":  "Please enter a password.",
+    "enterText":      "Please enter watermark text.",
+    "selectPages":    "Select pages to extract.",
+    "addImages":      "Add images first.",
+    "noFile":         "Please add a file first.",
+    "selectToRotate": "Select pages to rotate first.",
+    "signFirst":      "Prepare a signature first.",
+    "enterRange":     "Please enter a page range."
+  },
+  "progress": {
+    "merging":           "Merging PDFs…",
+    "splitting":         "Splitting…",
+    "compressing":       "Compressing…",
+    "encrypting":        "Encrypting…",
+    "removingPassword":  "Removing password…",
+    "addingWatermark":   "Adding watermark…",
+    "rotating":          "Rotating…",
+    "organizing":        "Organizing pages…",
+    "converting":        "Converting…",
+    "processing":        "Processing…",
+    "initializing":      "Initializing…",
+    "loadingOcr":        "Loading OCR engine…",
+    "recognizing":       "Recognizing text…",
+    "applyingCrop":      "Applying crop…",
+    "repairing":         "Attempting repair…",
+    "loadingStructure":  "Loading PDF structure…",
+    "copyingPages":      "Copying recoverable pages…",
+    "addingNumbers":     "Adding page numbers…",
+    "embedding":         "Embedding signature…",
+    "done":              "Done!"
+  },
+  "success": {
+    "merged":          "PDFs merged successfully!",
+    "split":           "Split into {{count}} file(s)!",
+    "compressed":      "Compression complete!",
+    "protected":       "PDF protected!",
+    "unlocked":        "Password removed!",
+    "watermarked":     "Watermark added!",
+    "rotated":         "Pages rotated!",
+    "organized":       "Pages organized!",
+    "convertedToPdf":  "Images converted to PDF!",
+    "exportedImages":  "Converted {{count}} page(s)!",
+    "annotated":       "Annotations applied!",
+    "signed":          "Signature embedded!",
+    "ocrDone":         "OCR complete — {{count}} page(s) processed!",
+    "pageNumbers":     "Page numbers added!",
+    "cropped":         "Crop applied!",
+    "repaired":        "Recovered {{recovered}}/{{total}} pages",
+    "signatureReady":  "Signature ready to place.",
+    "pagesExtracted":  "Pages extracted!"
+  },
+  "footer": {
+    "tagline":    "PDF Studio — 100% free, unlimited, private.",
+    "highlight":  "All processing happens in your browser.",
+    "extras":     "No uploads. No tracking. No sign-up.",
+    "poweredBy":  "Powered by pdf-lib · pdfjs-dist · Tesseract.js · React 18"
+  },
+  "privacy": {
+    "icon":   "🛡️",
+    "title":  "Your Privacy, Guaranteed",
+    "body":   "Every PDF operation runs in a Web Worker inside your browser using WebAssembly. No file ever leaves your device. No analytics, no tracking, no third-party services. Open-source and free forever."
+  },
+  "search": {
+    "placeholder":  "Search tools…",
+    "noResults":    "No tools match \"{{query}}\"",
+    "clearFilters": "Clear filters",
+    "showing":      "Showing {{count}} of {{total}} tools"
+  },
+  "merge": {
+    "description":   "Combine multiple PDF files into one. Drag to reorder before merging.",
+    "addedCount":    "{{count}} page(s)",
+    "button":        "Merge {{count}} PDFs",
+    "downloadLabel": "Download Merged PDF"
+  },
+  "split": {
+    "description":    "Split by page ranges, every N pages, or extract individual pages.",
+    "loaded":         "Loaded",
+    "pages":          "pages",
+    "modeRanges":     "Page Ranges",
+    "modeEveryN":     "Every N Pages",
+    "modeIndividual": "Individual Pages",
+    "modeVisual":     "Visual Select",
+    "rangeLabel":     "Page ranges (e.g. 1-3, 5, 7-9)",
+    "everyNLabel":    "Split every N pages",
+    "individualNote": "Each page will be saved as a separate PDF, downloaded as a ZIP.",
+    "selectAll":      "Select All",
+    "deselectAll":    "Deselect All",
+    "selected":       "{{count}} selected",
+    "evenPages":      "Even Pages",
+    "oddPages":       "Odd Pages",
+    "firstHalf":      "First Half",
+    "lastHalf":       "Last Half",
+    "every2":         "Every 2nd",
+    "button":         "Split PDF"
+  },
+  "compress": {
+    "description": "Reduce PDF file size while preserving quality.",
+    "quality":     "Quality",
+    "high":        "High",
+    "medium":      "Medium",
+    "low":         "Low",
+    "reduced":     "Reduced by {{pct}}%",
+    "button":      "Compress PDF"
+  },
+  "protect": {
+    "description":       "Add a password to your PDF to restrict access.",
+    "openPassword":      "Open Password",
+    "openPasswordHint":  "Required to open PDF",
+    "ownerPassword":     "Owner Password (optional)",
+    "ownerPasswordHint": "Restricts editing/printing",
+    "button":            "Protect PDF"
+  },
+  "unlock": {
+    "description":   "Remove password protection from a PDF file.",
+    "passwordLabel": "Current Password",
+    "passwordHint":  "Enter the PDF password",
+    "button":        "Unlock PDF"
+  },
+  "watermark": {
+    "description": "Add a text watermark to every page of your PDF.",
+    "text":        "Watermark Text",
+    "position":    "Position",
+    "fontSize":    "Font Size",
+    "opacity":     "Opacity",
+    "rotation":    "Rotation",
+    "color":       "Color",
+    "preview":     "Preview",
+    "button":      "Add Watermark"
+  },
+  "rotate": {
+    "description": "Rotate individual pages or all pages at once.",
+    "rotateAll":   "Rotate All {{deg}}°",
+    "button":      "Apply Rotations",
+    "clickHint":   "Click to rotate 90°"
+  },
+  "organize": {
+    "description":     "Reorder, delete, or extract pages from your PDF.",
+    "deleteSelected":  "🗑 Delete Selected ({{count}})",
+    "extractSelected": "📤 Extract Selected",
+    "addBlank":        "＋ Add Blank Page",
+    "button":          "Apply Changes"
+  },
+  "imageToPdf": {
+    "description": "Convert JPG, PNG, WebP images into a PDF document.",
+    "a4":          "A4",
+    "letter":      "Letter",
+    "fitImage":    "Fit Image",
+    "button":      "Convert to PDF"
+  },
+  "pdfToImage": {
+    "description": "Export each PDF page as a PNG or JPG image.",
+    "format":      "Format",
+    "dpi":         "DPI",
+    "button":      "Export {{count}} Page(s) as Images"
+  },
+  "annotate": {
+    "description":   "Add text, shapes, and highlights to your PDF.",
+    "toolText":      "T Text",
+    "toolRect":      "□ Rectangle",
+    "toolHighlight": "▬ Highlight",
+    "page":          "Page {{current}} / {{total}}",
+    "count":         "{{count}} annotation(s) added",
+    "button":        "Apply Annotations",
+    "promptText":    "Enter text:"
+  },
+  "sign": {
+    "description":  "Draw, type, or upload your signature and place it on any page.",
+    "modeDraw":     "✏️ Draw",
+    "modeType":     "⌨️ Type",
+    "modeUpload":   "📁 Upload",
+    "drawHint":     "Draw your signature below:",
+    "typePlaceholder": "Your Name",
+    "signatureReady": "Signature ready",
+    "page":         "Page",
+    "xPos":         "X Position (pt)",
+    "yPos":         "Y Position (pt)",
+    "width":        "Width (pt)",
+    "button":       "Sign PDF"
+  },
+  "ocr": {
+    "description":    "Use AI-powered OCR to extract text from scanned PDF pages.",
+    "language":       "Document Language",
+    "warningTitle":   "Note:",
+    "warning":        "OCR may take 10–60 seconds per page. The Tesseract model loads on first use (~20 MB).",
+    "button":         "Run OCR",
+    "processing":     "Processing…",
+    "extractedText":  "Extracted Text",
+    "downloadTxt":    "Download .txt"
+  },
+  "pageNumbers": {
+    "description":  "Stamp page numbers onto every page with full control over position, style, and numbering.",
+    "position":     "Position",
+    "startAt":      "Start numbering at",
+    "skipFirst":    "Skip first N pages",
+    "fontSize":     "Font size",
+    "color":        "Color",
+    "prefix":       "Prefix (e.g. \"Page \")",
+    "suffix":       "Suffix (e.g. \" of N\")",
+    "preview":      "Preview",
+    "button":       "Add Page Numbers"
+  },
+  "crop": {
+    "description":  "Set crop margins to trim page content. The crop box is embedded in the PDF.",
+    "xLeft":        "X (left pt)",
+    "yBottom":      "Y (bottom pt)",
+    "widthLabel":   "Width (pt)",
+    "heightLabel":  "Height (pt)",
+    "pageSizeNote": "Page size: {{w}} × {{h}} pt (1 pt = 1/72 inch)",
+    "applyAll":     "Apply to all {{count}} pages",
+    "pagesFrom":    "Pages",
+    "to":           "to",
+    "button":       "Apply Crop"
+  },
+  "repair": {
+    "description":   "Attempt to recover pages from a corrupted or damaged PDF file.",
+    "howTitle":      "How it works:",
+    "howBody":       "The repair tool uses pdf-lib to reload the PDF with relaxed parsing rules and copies each page individually into a new clean document. Pages that cannot be parsed are replaced with a placeholder.",
+    "report":        "Recovery report",
+    "recovered":     "✅ Recovered pages: {{count}} / {{total}}",
+    "failed":        "❌ Failed pages: {{pages}}",
+    "button":        "Repair PDF",
+    "repairing":     "Repairing…"
+  },
+  "errorBoundary": {
+    "title":   "Something went wrong",
+    "message": "An unexpected error occurred.",
+    "retry":   "Try Again"
+  }
+}

@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── CSS design tokens ─── */
+:root {
+  --bg-base: #0A0A0F;
+  --bg-surface: #12121A;
+  --bg-elevated: #1A1A27;
+  --bg-border: #1E1E2E;
+  --accent: #6366F1;
+  --accent-hover: #4F46E5;
+  --text-primary: #F1F1F5;
+  --text-secondary: #9CA3AF;
+  --text-muted: #6B7280;
+}
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    @apply antialiased font-sans;
+  }
+
+  body.font-georgian {
+    font-family: 'Noto Sans Georgian', sans-serif;
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--bg-surface);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--bg-border);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #2D2D42;
+  }
+
+  /* Focus ring */
+  *:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  /* Input / select reset for dark theme */
+  input[type='number']::-webkit-inner-spin-button {
+    opacity: 0.5;
+  }
+}
+
+@layer components {
+  /* Reusable glass card */
+  .glass-card {
+    @apply rounded-2xl border;
+    background: var(--bg-surface);
+    border-color: var(--bg-border);
+  }
+
+  /* Accent button */
+  .btn-accent {
+    @apply rounded-xl px-6 py-3 font-semibold text-white transition-all duration-200;
+    background: var(--accent);
+  }
+  .btn-accent:hover:not(:disabled) {
+    background: var(--accent-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 25px rgba(99,102,241,0.35);
+  }
+  .btn-accent:disabled {
+    @apply opacity-40 cursor-not-allowed;
+  }
+
+  /* Ghost button */
+  .btn-ghost {
+    @apply rounded-xl px-4 py-2 text-sm font-medium transition-colors duration-150;
+    color: var(--text-secondary);
+    border: 1px solid var(--bg-border);
+    background: transparent;
+  }
+  .btn-ghost:hover {
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+  }
+
+  /* Dropzone */
+  .dropzone {
+    @apply rounded-2xl border-2 border-dashed p-12 text-center cursor-pointer transition-all duration-200;
+    border-color: var(--bg-border);
+    background: var(--bg-surface);
+  }
+  .dropzone:hover, .dropzone.active {
+    border-color: var(--accent);
+    background: rgba(99,102,241,0.05);
+  }
+
+  /* Tool page container */
+  .tool-container {
+    @apply mx-auto max-w-4xl px-4 py-10;
+  }
+}
+
+@layer utilities {
+  .text-primary   { color: var(--text-primary); }
+  .text-secondary { color: var(--text-secondary); }
+  .text-muted     { color: var(--text-muted); }
+  .bg-surface     { background: var(--bg-surface); }
+  .bg-elevated    { background: var(--bg-elevated); }
+  .border-subtle  { border-color: var(--bg-border); }
+}
