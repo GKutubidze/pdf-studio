@@ -2,8 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ─── CSS design tokens ─── */
+/* ─── CSS design tokens — light mode (default) ─── */
 :root {
+  --bg-base: #FFFFFF;
+  --bg-surface: #F8F9FA;
+  --bg-elevated: #F1F5F9;
+  --bg-border: #E2E8F0;
+  --accent: #6366F1;
+  --accent-hover: #4F46E5;
+  --text-primary: #0A0A0F;
+  --text-secondary: #6B7280;
+  --text-muted: #9CA3AF;
+  --header-bg: rgba(255, 255, 255, 0.88);
+  --scrollbar-thumb: #CBD5E1;
+  --scrollbar-thumb-hover: #94A3B8;
+}
+
+/* ─── Dark mode overrides ─── */
+html.dark {
   --bg-base: #0A0A0F;
   --bg-surface: #12121A;
   --bg-elevated: #1A1A27;
@@ -13,6 +29,9 @@
   --text-primary: #F1F1F5;
   --text-secondary: #9CA3AF;
   --text-muted: #6B7280;
+  --header-bg: rgba(10, 10, 15, 0.85);
+  --scrollbar-thumb: #2D2D42;
+  --scrollbar-thumb-hover: #3D3D55;
 }
 
 @layer base {
@@ -39,11 +58,11 @@
     background: var(--bg-surface);
   }
   ::-webkit-scrollbar-thumb {
-    background: var(--bg-border);
+    background: var(--scrollbar-thumb);
     border-radius: 3px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #2D2D42;
+    background: var(--scrollbar-thumb-hover);
   }
 
   /* Focus ring */
