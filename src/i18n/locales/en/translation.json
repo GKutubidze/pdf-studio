@@ -79,7 +79,9 @@
     "noFile":         "Please add a file first.",
     "selectToRotate": "Select pages to rotate first.",
     "signFirst":      "Prepare a signature first.",
-    "enterRange":     "Please enter a page range."
+    "enterRange":     "Please enter a page range.",
+    "addRange":       "Add at least one range.",
+    "invalidRange":   "Range {{from}}–{{to}} is invalid (document has {{total}} pages)."
   },
   "progress": {
     "merging":           "Merging PDFs…",
@@ -165,7 +167,11 @@
     "firstHalf":      "First Half",
     "lastHalf":       "Last Half",
     "every2":         "Every 2nd",
-    "button":         "Split PDF"
+    "button":         "Split PDF",
+    "from":           "From",
+    "to":             "to",
+    "addRange":       "Add Range",
+    "overlap":        "Overlapping ranges"
   },
   "compress": {
     "description": "Reduce PDF file size while preserving quality.",
@@ -289,8 +295,13 @@
     "description":   "Attempt to recover pages from a corrupted or damaged PDF file.",
     "howTitle":      "How it works:",
     "howBody":       "The repair tool uses pdf-lib to reload the PDF with relaxed parsing rules and copies each page individually into a new clean document. Pages that cannot be parsed are replaced with a placeholder.",
+    "bullet1":       "Reloads the PDF with relaxed parsing to handle structural damage",
+    "bullet2":       "Copies each page individually into a fresh, clean document",
+    "bullet3":       "Pages that can't be recovered are replaced with a labelled placeholder",
+    "bullet4":       "Reports exactly how many pages were successfully rescued",
     "report":        "Recovery report",
     "recovered":     "✅ Recovered pages: {{count}} / {{total}}",
+    "fileSize":      "File size",
     "failed":        "❌ Failed pages: {{pages}}",
     "button":        "Repair PDF",
     "repairing":     "Repairing…"

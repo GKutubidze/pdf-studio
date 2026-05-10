@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { PDFDocument } from 'pdf-lib';
 import { useTranslation } from 'react-i18next';
 import { ToolPageShell } from '../../components/ToolPageShell';
@@ -7,6 +7,7 @@ import { ProgressBar } from '../../components/ProgressBar';
 import { DownloadButton } from '../../components/DownloadButton';
 import { useToast } from '../../components/Toast';
 import { useProgress } from '../../hooks/useProgress';
+import { CropCanvas } from './CropCanvas';
 
 interface CropBox { x: number; y: number; width: number; height: number }
 
@@ -22,51 +23,8 @@ export default function CropPage() {
   const [rangeStart, setRangeStart] = useState(1);
   const [rangeEnd, setRangeEnd] = useState(1);
   const [result, setResult] = useState<ArrayBuffer | null>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const { progress, start, update, finish, reset } = useProgress();
   const { showToast } = useToast();
-
-  const renderPreview = useCallback(async () => {
-    if (!buffer || !canvasRef.current) return;
-    const pdfjsLib = await import('pdfjs-dist');
-    pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
-      'pdfjs-dist/build/pdf.worker.min.mjs',
-      import.meta.url,
-    ).toString();
-    const pdf = await pdfjsLib.getDocument({ data: buffer.slice(0) }).promise;
-    const page = await pdf.getPage(1);
-    const viewport = page.getViewport({ scale: 1 });
-    const scale = Math.min(500 / viewport.width, 400 / viewport.height);
-    const sv = page.getViewport({ scale });
-    const canvas = canvasRef.current;
-    canvas.width = sv.width;
-    canvas.height = sv.height;
-    await page.render({ canvasContext: canvas.getContext('2d')!, viewport: sv }).promise;
-
-    const ctx = canvas.getContext('2d')!;
-    const scaleX = sv.width / viewport.width;
-    const scaleY = sv.height / viewport.height;
-    ctx.strokeStyle = '#6366F1';
-    ctx.lineWidth = 2;
-    ctx.setLineDash([6, 3]);
-    ctx.strokeRect(
-      cropBox.x * scaleX,
-      (viewport.height - cropBox.y - cropBox.height) * scaleY,
-      cropBox.width * scaleX,
-      cropBox.height * scaleY,
-    );
-    ctx.fillStyle = 'rgba(99,102,241,0.08)';
-    ctx.fillRect(
-      cropBox.x * scaleX,
-      (viewport.height - cropBox.y - cropBox.height) * scaleY,
-      cropBox.width * scaleX,
-      cropBox.height * scaleY,
-    );
-
-    await pdf.destroy();
-  }, [buffer, cropBox]);
-
-  useEffect(() => { renderPreview(); }, [renderPreview]);
 
   const handleFile = async (files: File[]) => {
     const f = files[0];
@@ -109,37 +67,19 @@ export default function CropPage() {
     }
   };
 
-  const fields = [
-    { labelKey: 'crop.xLeft',       val: cropBox.x,      setter: (v: number) => setCropBox((b) => ({ ...b, x: v })),      max: pageWidth },
-    { labelKey: 'crop.yBottom',      val: cropBox.y,      setter: (v: number) => setCropBox((b) => ({ ...b, y: v })),      max: pageHeight },
-    { labelKey: 'crop.widthLabel',   val: cropBox.width,  setter: (v: number) => setCropBox((b) => ({ ...b, width: v })),  max: pageWidth },
-    { labelKey: 'crop.heightLabel',  val: cropBox.height, setter: (v: number) => setCropBox((b) => ({ ...b, height: v })), max: pageHeight },
-  ];
-
   return (
     <ToolPageShell icon="✂️" title={t('tools.crop.title')} description={t('crop.description')}>
       <FileUploader onFiles={handleFile} multiple={false} />
 
       {buffer && (
         <div className="mt-6 space-y-4">
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-            {fields.map(({ labelKey, val, setter, max }) => (
-              <div key={labelKey}>
-                <label className="mb-1 block text-xs font-medium text-gray-600 dark:text-gray-400">{t(labelKey)}</label>
-                <input type="number" min={0} max={max} value={Math.round(val)}
-                  onChange={(e) => setter(Number(e.target.value))}
-                  className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm focus:border-indigo-400 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100" />
-              </div>
-            ))}
-          </div>
-
-          <p className="text-xs text-gray-400">
-            {t('crop.pageSizeNote', { w: Math.round(pageWidth), h: Math.round(pageHeight) })}
-          </p>
-
-          <div className="overflow-auto rounded-xl border border-gray-200 dark:border-gray-700">
-            <canvas ref={canvasRef} className="block" style={{ maxWidth: '100%' }} />
-          </div>
+          <CropCanvas
+            pdfArrayBuffer={buffer}
+            pageWidth={pageWidth}
+            pageHeight={pageHeight}
+            cropBox={cropBox}
+            onCropChange={setCropBox}
+          />
 
           <div className="flex flex-wrap items-center gap-4">
             <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">

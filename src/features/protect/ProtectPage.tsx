@@ -81,6 +81,12 @@ export default function ProtectPage() {
 
           {progress.active && <ProgressBar percent={progress.percent} message={progress.message} />}
 
+          {result && (
+            <div className="rounded-xl border border-yellow-300 bg-yellow-50 p-4 text-sm text-yellow-800 dark:border-yellow-700 dark:bg-yellow-900/20 dark:text-yellow-300">
+              <strong>⚠️ Note:</strong> Some browsers (Chrome, Firefox) may open password-protected PDFs without asking for a password. To verify protection works, open the file in Adobe Acrobat, Foxit Reader, or Preview (Mac).
+            </div>
+          )}
+
           <div className="flex items-center gap-4">
             <button
               onClick={handleProtect}

@@ -20,16 +20,25 @@ export default function RepairPage() {
   const [fileName, setFileName] = useState('');
   const [result, setResult] = useState<ArrayBuffer | null>(null);
   const [report, setReport] = useState<RepairReport | null>(null);
+  const [originalSize, setOriginalSize] = useState(0);
+  const [repairedSize, setRepairedSize] = useState(0);
   const { progress, start, update, finish, reset } = useProgress();
   const { showToast } = useToast();
 
+  const fmtSize = (bytes: number) => {
+    if (bytes >= 1_048_576) return `${(bytes / 1_048_576).toFixed(1)} MB`;
+    return `${(bytes / 1024).toFixed(0)} KB`;
+  };
+
   const handleFile = (files: File[]) => {
     const f = files[0];
+    setOriginalSize(f.size);
     f.arrayBuffer().then((buf) => {
       setBuffer(buf);
       setFileName(f.name.replace(/\.pdf$/i, ''));
       setResult(null);
       setReport(null);
+      setRepairedSize(0);
     });
   };
 
@@ -73,6 +82,7 @@ export default function RepairPage() {
       const bytes = await dst.save();
       finish();
       setResult(bytes.buffer as ArrayBuffer);
+      setRepairedSize(bytes.byteLength);
       setReport({ totalAttempted: totalPages, recovered, failed });
       showToast(t('success.repaired', { recovered, total: totalPages }), recovered > 0 ? 'success' : 'error');
     } catch (err) {
@@ -93,7 +103,13 @@ export default function RepairPage() {
       description={t('repair.description')}
     >
       <div className="mb-4 rounded-xl border border-blue-200 bg-blue-50 p-4 text-sm text-blue-700 dark:border-blue-800 dark:bg-blue-900/20 dark:text-blue-400">
-        <strong>{t('repair.howTitle')}</strong> {t('repair.howBody')}
+        <strong className="block mb-2">{t('repair.howTitle')}</strong>
+        <ul className="space-y-1 list-disc list-inside">
+          <li>{t('repair.bullet1')}</li>
+          <li>{t('repair.bullet2')}</li>
+          <li>{t('repair.bullet3')}</li>
+          <li>{t('repair.bullet4')}</li>
+        </ul>
       </div>
 
       <FileUploader
@@ -120,12 +136,17 @@ export default function RepairPage() {
                 : 'border-amber-200 bg-amber-50 dark:border-amber-800 dark:bg-amber-900/20'
             }`}>
               <p className={`font-semibold ${report.failed.length === 0 ? 'text-green-700 dark:text-green-400' : 'text-amber-700 dark:text-amber-400'}`}>
-                {t('repair.report')}
+                ✅ {t('repair.report')}
               </p>
               <ul className="mt-2 space-y-1 text-sm">
                 <li className="text-gray-700 dark:text-gray-300">
                   {t('repair.recovered', { count: report.recovered, total: report.totalAttempted })}
                 </li>
+                {repairedSize > 0 && (
+                  <li className="text-gray-700 dark:text-gray-300">
+                    {t('repair.fileSize')}: {fmtSize(originalSize)} → {fmtSize(repairedSize)}
+                  </li>
+                )}
                 {report.failed.length > 0 && (
                   <li className="text-red-600 dark:text-red-400">
                     {t('repair.failed', { pages: report.failed.join(', ') })}
