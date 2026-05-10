@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://pdf-studio-eta.vercel.app/</loc><priority>1.0</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://pdf-studio-eta.vercel.app/merge</loc><priority>0.9</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://pdf-studio-eta.vercel.app/split</loc><priority>0.9</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://pdf-studio-eta.vercel.app/compress</loc><priority>0.9</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://pdf-studio-eta.vercel.app/protect</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://pdf-studio-eta.vercel.app/unlock</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://pdf-studio-eta.vercel.app/watermark</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://pdf-studio-eta.vercel.app/rotate</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://pdf-studio-eta.vercel.app/organize</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://pdf-studio-eta.vercel.app/image-to-pdf</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://pdf-studio-eta.vercel.app/pdf-to-image</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://pdf-studio-eta.vercel.app/annotate</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://pdf-studio-eta.vercel.app/sign</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://pdf-studio-eta.vercel.app/ocr</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://pdf-studio-eta.vercel.app/page-numbers</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://pdf-studio-eta.vercel.app/crop</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://pdf-studio-eta.vercel.app/repair</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+</urlset>
