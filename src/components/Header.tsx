@@ -1,7 +1,11 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { LayoutGrid, Sun, Moon, Menu, X } from 'lucide-react';
+import { LayoutGrid, Sun, Moon, Menu, X, ChevronDown, Check } from 'lucide-react';
+import { LanguageSwitcher } from './LanguageSwitcher';
+import { useTheme } from '../hooks/useTheme';
+
+// ── Shared helpers ────────────────────────────────────────────────────────────
 
 function GithubIcon() {
   return (
@@ -10,8 +14,6 @@ function GithubIcon() {
     </svg>
   );
 }
-import { LanguageSwitcher } from './LanguageSwitcher';
-import { useTheme } from '../hooks/useTheme';
 
 function IconBtn({ onClick, label, children }: { onClick?: () => void; label: string; children: React.ReactNode }) {
   return (
@@ -36,8 +38,7 @@ function IconBtn({ onClick, label, children }: { onClick?: () => void; label: st
 }
 
 function IconLink({ to, href, label, children }: { to?: string; href?: string; label: string; children: React.ReactNode }) {
-  const cls =
-    'flex h-9 w-9 items-center justify-center rounded-lg transition-colors duration-150';
+  const cls = 'flex h-9 w-9 items-center justify-center rounded-lg transition-colors duration-150';
   const style = { color: 'var(--text-secondary)' };
   const enter = (e: React.MouseEvent<HTMLElement>) => {
     e.currentTarget.style.color = 'var(--text-primary)';
@@ -47,7 +48,6 @@ function IconLink({ to, href, label, children }: { to?: string; href?: string; l
     e.currentTarget.style.color = 'var(--text-secondary)';
     e.currentTarget.style.background = 'transparent';
   };
-
   if (href) {
     return (
       <a href={href} target="_blank" rel="noopener noreferrer" title={label} aria-label={label}
@@ -64,23 +64,264 @@ function IconLink({ to, href, label, children }: { to?: string; href?: string; l
   );
 }
 
+// ── Language data ─────────────────────────────────────────────────────────────
+
+const LANGUAGES = [
+  { code: 'en', label: 'English',  flag: '🇬🇧' },
+  { code: 'ka', label: 'ქართული', flag: '🇬🇪' },
+  { code: 'ru', label: 'Русский',  flag: '🇷🇺' },
+];
+
+function applyGeorgianFont(lng: string) {
+  document.body.classList.toggle('font-georgian', lng === 'ka');
+}
+
+// ── Mobile drawer ─────────────────────────────────────────────────────────────
+
+interface MobileMenuProps {
+  open: boolean;
+  onClose: () => void;
+  theme: string;
+  toggleTheme: () => void;
+}
+
+function MobileMenu({ open, onClose, theme, toggleTheme }: MobileMenuProps) {
+  const { t, i18n } = useTranslation();
+  const [langOpen, setLangOpen] = useState(false);
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
+
+  const currentLang = LANGUAGES.find((l) => l.code === i18n.language) ?? LANGUAGES[0];
+
+  const changeLanguage = (code: string) => {
+    i18n.changeLanguage(code);
+    applyGeorgianFont(code);
+    setLangOpen(false);
+  };
+
+  // Focus the close button when drawer opens
+  useEffect(() => {
+    if (open) {
+      setTimeout(() => closeRef.current?.focus(), 50);
+    } else {
+      setLangOpen(false);
+    }
+  }, [open]);
+
+  // Escape key
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, [open, onClose]);
+
+  // Prevent body scroll when open
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [open]);
+
+  const rowBase = 'flex w-full items-center gap-3 px-6 py-4 text-base font-medium transition-colors duration-150 min-h-[56px]';
+  const rowStyle = { color: 'var(--text-secondary)' };
+
+  const isDark = theme === 'dark';
+
+  return (
+    <>
+      {/* Backdrop */}
+      <div
+        className="fixed inset-0 z-[59] md:hidden transition-opacity duration-200"
+        style={{
+          background: 'rgba(0,0,0,0.5)',
+          opacity: open ? 1 : 0,
+          pointerEvents: open ? 'auto' : 'none',
+        }}
+        onClick={onClose}
+        aria-hidden="true"
+      />
+
+      {/* Drawer panel */}
+      <div
+        ref={drawerRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Navigation menu"
+        className="fixed inset-x-0 top-0 z-[60] md:hidden transition-transform duration-200 ease-out"
+        style={{
+          transform: open ? 'translateY(0)' : 'translateY(-100%)',
+          background: 'rgba(11, 11, 15, 0.98)',
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
+          maxHeight: '100dvh',
+          overflowY: 'auto',
+          borderBottom: '1px solid var(--bg-border)',
+        }}
+      >
+        {/* Drawer header row: logo + close */}
+        <div
+          className="flex items-center justify-between px-4 py-3 border-b"
+          style={{ borderColor: 'var(--bg-border)' }}
+        >
+          <Link to="/" onClick={onClose} className="flex items-center gap-2.5">
+            <div
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
+              style={{ background: 'var(--accent)' }}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+                <polyline points="10 9 9 9 8 9"/>
+              </svg>
+            </div>
+            <span className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>
+              PDF<span style={{ color: 'var(--accent)' }}>Studio</span>
+            </span>
+          </Link>
+
+          <button
+            ref={closeRef}
+            onClick={onClose}
+            aria-label="Close menu"
+            className="flex items-center justify-center rounded-xl transition-colors duration-150"
+            style={{ color: 'var(--text-secondary)', minWidth: 44, minHeight: 44 }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = 'var(--bg-elevated)'; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
+          >
+            <X size={22} />
+          </button>
+        </div>
+
+        {/* ── Menu items ── */}
+        <nav>
+          {/* All Tools */}
+          <Link
+            to="/"
+            onClick={onClose}
+            className={rowBase}
+            style={rowStyle}
+            onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--bg-elevated)'; e.currentTarget.style.color = 'var(--text-primary)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-secondary)'; }}
+          >
+            <span className="flex w-5 shrink-0 items-center justify-center">
+              <LayoutGrid size={20} />
+            </span>
+            <span className="flex-1">{t('nav.allTools')}</span>
+          </Link>
+
+          {/* GitHub */}
+          <a
+            href="https://github.com/GKutubidze/pdf-studio"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={rowBase}
+            style={rowStyle}
+            onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--bg-elevated)'; e.currentTarget.style.color = 'var(--text-primary)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-secondary)'; }}
+          >
+            <span className="flex w-5 shrink-0 items-center justify-center">
+              <GithubIcon />
+            </span>
+            <span className="flex-1">{t('nav.github')}</span>
+          </a>
+
+          {/* Divider */}
+          <div className="mx-6 border-t" style={{ borderColor: 'var(--bg-border)', opacity: 0.4 }} />
+
+          {/* Language selector — inline expand */}
+          <button
+            onClick={() => setLangOpen((o) => !o)}
+            className={rowBase + ' w-full text-left'}
+            style={rowStyle}
+            aria-expanded={langOpen}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = 'var(--bg-elevated)'; (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)'; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)'; }}
+          >
+            <span className="flex w-5 shrink-0 items-center justify-center text-base leading-none">
+              {currentLang.flag}
+            </span>
+            <span className="flex-1">{currentLang.label}</span>
+            <ChevronDown
+              size={18}
+              className="shrink-0 transition-transform duration-200"
+              style={{ transform: langOpen ? 'rotate(180deg)' : 'rotate(0deg)', color: 'var(--text-muted)' }}
+            />
+          </button>
+
+          {/* Inline language options */}
+          <div
+            style={{
+              maxHeight: langOpen ? '180px' : '0',
+              overflow: 'hidden',
+              transition: 'max-height 200ms ease-out',
+            }}
+          >
+            {LANGUAGES.map((lang) => {
+              const isActive = lang.code === i18n.language;
+              return (
+                <button
+                  key={lang.code}
+                  onClick={() => changeLanguage(lang.code)}
+                  className="flex w-full items-center gap-3 py-3 pl-14 pr-6 text-base font-medium transition-colors duration-150"
+                  style={{ color: isActive ? 'var(--accent)' : 'var(--text-muted)', background: 'transparent' }}
+                  onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = 'var(--bg-elevated)'; }}
+                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
+                >
+                  <span className="text-base leading-none">{lang.flag}</span>
+                  <span className="flex-1">{lang.label}</span>
+                  {isActive && <Check size={16} style={{ color: 'var(--accent)' }} />}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Divider */}
+          <div className="mx-6 border-t" style={{ borderColor: 'var(--bg-border)', opacity: 0.4 }} />
+
+          {/* Theme toggle */}
+          <button
+            onClick={toggleTheme}
+            className={rowBase + ' w-full'}
+            style={rowStyle}
+            aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = 'var(--bg-elevated)'; (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)'; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)'; }}
+          >
+            <span className="flex w-5 shrink-0 items-center justify-center">
+              {isDark ? <Sun size={20} /> : <Moon size={20} />}
+            </span>
+            <span className="flex-1">{isDark ? 'Light mode' : 'Dark mode'}</span>
+            {/* Toggle switch */}
+            <div
+              className="shrink-0 relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200"
+              style={{ background: isDark ? 'var(--accent)' : 'var(--bg-border)' }}
+              aria-hidden="true"
+            >
+              <span
+                className="inline-block h-4 w-4 rounded-full bg-white shadow transition-transform duration-200"
+                style={{ transform: isDark ? 'translateX(22px)' : 'translateX(4px)' }}
+              />
+            </div>
+          </button>
+
+          {/* Safe area spacer for iPhone home indicator */}
+          <div style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)', minHeight: 16 }} />
+        </nav>
+      </div>
+    </>
+  );
+}
+
+// ── Header ────────────────────────────────────────────────────────────────────
+
 export function Header() {
   const { t } = useTranslation();
   const { theme, toggle } = useTheme();
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const drawerRef = useRef<HTMLDivElement>(null);
 
-  // Close drawer on outside click
-  useEffect(() => {
-    if (!drawerOpen) return;
-    function handle(e: MouseEvent) {
-      if (drawerRef.current && !drawerRef.current.contains(e.target as Node)) {
-        setDrawerOpen(false);
-      }
-    }
-    document.addEventListener('mousedown', handle);
-    return () => document.removeEventListener('mousedown', handle);
-  }, [drawerOpen]);
+  const close = useCallback(() => setDrawerOpen(false), []);
 
   // Close drawer on resize to desktop
   useEffect(() => {
@@ -93,119 +334,74 @@ export function Header() {
   const themeLabel = theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
 
   return (
-    <header
-      className="sticky top-0 z-50 border-b"
-      style={{ borderColor: 'var(--bg-border)', background: 'var(--header-bg)', backdropFilter: 'blur(12px)' }}
-      ref={drawerRef}
-    >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
+    <>
+      <header
+        className="sticky top-0 z-50 border-b"
+        style={{ borderColor: 'var(--bg-border)', background: 'var(--header-bg)', backdropFilter: 'blur(12px)' }}
+      >
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
 
-        {/* ── Left: Logo ── */}
-        <Link to="/" className="flex items-center gap-2.5">
-          <div
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
-            style={{ background: 'var(--accent)' }}
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
-              <polyline points="14 2 14 8 20 8"/>
-              <line x1="16" y1="13" x2="8" y2="13"/>
-              <line x1="16" y1="17" x2="8" y2="17"/>
-              <polyline points="10 9 9 9 8 9"/>
-            </svg>
-          </div>
-          <span className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>
-            PDF<span style={{ color: 'var(--accent)' }}>Studio</span>
-          </span>
-        </Link>
-
-        {/* ── Center: All Tools icon (desktop only) ── */}
-        <div className="hidden md:flex">
-          <IconLink to="/" label={t('nav.allTools')}>
-            <LayoutGrid size={20} />
-          </IconLink>
-        </div>
-
-        {/* ── Right: desktop actions + mobile hamburger ── */}
-        <nav className="flex items-center gap-2">
-          {/* Desktop actions */}
-          <div className="hidden items-center gap-2 md:flex">
-            <IconLink href="https://github.com/GKutubidze/pdf-studio" label={t('nav.github')}>
-              <GithubIcon />
-            </IconLink>
-            <LanguageSwitcher />
-            <IconBtn onClick={toggle} label={themeLabel}>
-              <ThemeIcon size={20} />
-            </IconBtn>
-          </div>
-
-          {/* Mobile hamburger */}
-          <button
-            className="flex h-9 w-9 items-center justify-center rounded-lg transition-colors duration-150 md:hidden"
-            style={{ color: 'var(--text-secondary)' }}
-            onClick={() => setDrawerOpen((o) => !o)}
-            aria-label="Toggle menu"
-          >
-            {drawerOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
-        </nav>
-      </div>
-
-      {/* ── Mobile drawer ── */}
-      {drawerOpen && (
-        <div
-          className="border-t md:hidden"
-          style={{ borderColor: 'var(--bg-border)', background: 'var(--header-bg)', backdropFilter: 'blur(12px)' }}
-        >
-          <div className="mx-auto flex max-w-7xl flex-col gap-1 px-4 py-3">
-            {/* All Tools */}
-            <Link
-              to="/"
-              onClick={() => setDrawerOpen(false)}
-              className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors"
-              style={{ color: 'var(--text-secondary)' }}
-              onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--text-primary)'; e.currentTarget.style.background = 'var(--bg-elevated)'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-secondary)'; e.currentTarget.style.background = 'transparent'; }}
+          {/* ── Left: Logo ── */}
+          <Link to="/" className="flex items-center gap-2.5">
+            <div
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
+              style={{ background: 'var(--accent)' }}
             >
-              <LayoutGrid size={18} />
-              {t('nav.allTools')}
-            </Link>
-
-            {/* GitHub */}
-            <a
-              href="https://github.com/GKutubidze/pdf-studio"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors"
-              style={{ color: 'var(--text-secondary)' }}
-              onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--text-primary)'; e.currentTarget.style.background = 'var(--bg-elevated)'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-secondary)'; e.currentTarget.style.background = 'transparent'; }}
-            >
-              <GithubIcon />
-              {t('nav.github')}
-            </a>
-
-            {/* Divider */}
-            <div className="my-1 border-t" style={{ borderColor: 'var(--bg-border)' }} />
-
-            {/* Language switcher + theme toggle row */}
-            <div className="flex items-center justify-between px-3 py-1">
-              <LanguageSwitcher />
-              <button
-                onClick={toggle}
-                aria-label={themeLabel}
-                className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors"
-                style={{ color: 'var(--text-secondary)' }}
-                onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--text-primary)'; e.currentTarget.style.background = 'var(--bg-elevated)'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-secondary)'; e.currentTarget.style.background = 'transparent'; }}
-              >
-                <ThemeIcon size={18} />
-                <span>{theme === 'dark' ? 'Light mode' : 'Dark mode'}</span>
-              </button>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+                <polyline points="10 9 9 9 8 9"/>
+              </svg>
             </div>
+            <span className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>
+              PDF<span style={{ color: 'var(--accent)' }}>Studio</span>
+            </span>
+          </Link>
+
+          {/* ── Center: All Tools icon (desktop only) ── */}
+          <div className="hidden md:flex">
+            <IconLink to="/" label={t('nav.allTools')}>
+              <LayoutGrid size={20} />
+            </IconLink>
           </div>
+
+          {/* ── Right: desktop actions + mobile hamburger ── */}
+          <nav className="flex items-center gap-2">
+            {/* Desktop actions */}
+            <div className="hidden items-center gap-2 md:flex">
+              <IconLink href="https://github.com/GKutubidze/pdf-studio" label={t('nav.github')}>
+                <GithubIcon />
+              </IconLink>
+              <LanguageSwitcher />
+              <IconBtn onClick={toggle} label={themeLabel}>
+                <ThemeIcon size={20} />
+              </IconBtn>
+            </div>
+
+            {/* Mobile hamburger */}
+            <button
+              className="flex h-9 w-9 items-center justify-center rounded-lg transition-colors duration-150 md:hidden"
+              style={{ color: 'var(--text-secondary)' }}
+              onClick={() => setDrawerOpen((o) => !o)}
+              aria-label="Toggle menu"
+              aria-expanded={drawerOpen}
+              aria-controls="mobile-menu"
+            >
+              <Menu size={20} />
+            </button>
+          </nav>
         </div>
-      )}
-    </header>
+      </header>
+
+      {/* Mobile drawer rendered outside header so it can cover full screen */}
+      <MobileMenu
+        open={drawerOpen}
+        onClose={close}
+        theme={theme}
+        toggleTheme={toggle}
+      />
+    </>
   );
 }
