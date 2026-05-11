@@ -150,7 +150,7 @@ function MobileMenu({ open, onClose, theme, toggleTheme }: MobileMenuProps) {
         className="fixed inset-x-0 top-0 z-[60] md:hidden transition-transform duration-200 ease-out"
         style={{
           transform: open ? 'translateY(0)' : 'translateY(-100%)',
-          background: 'rgba(11, 11, 15, 0.98)',
+          background: 'var(--bg-base)',
           backdropFilter: 'blur(24px)',
           WebkitBackdropFilter: 'blur(24px)',
           maxHeight: '100dvh',
